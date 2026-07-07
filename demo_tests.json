@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "cases": [
+        {"id": "login_smoke", "name": "Login happy path", "command": "", "suite": "Untriaged", "tags": ["auth"], "timeout_s": 30},
+        {"id": "login_lockout", "name": "Login lockout after 5 fails", "command": "", "suite": "Untriaged", "tags": ["auth", "security"], "timeout_s": 30},
+        {"id": "cart_add", "name": "Add item to cart", "command": "", "suite": "Untriaged", "tags": ["cart"], "timeout_s": 30},
+        {"id": "cart_remove", "name": "Remove item from cart", "command": "", "suite": "Untriaged", "tags": ["cart"], "timeout_s": 30},
+        {"id": "checkout_card", "name": "Checkout with card", "command": "", "suite": "Untriaged", "tags": ["checkout", "payments"], "timeout_s": 60},
+        {"id": "checkout_paypal", "name": "Checkout with PayPal", "command": "", "suite": "Untriaged", "tags": ["checkout", "payments"], "timeout_s": 60},
+        {"id": "search_basic", "name": "Basic product search", "command": "", "suite": "Untriaged", "tags": ["search"], "timeout_s": 30},
+        {"id": "search_filters", "name": "Search with filters", "command": "", "suite": "Untriaged", "tags": ["search"], "timeout_s": 30},
+        {"id": "profile_edit", "name": "Edit profile details", "command": "", "suite": "Untriaged", "tags": ["profile"], "timeout_s": 30},
+        {"id": "report_export", "name": "Export monthly report (slow)", "command": "", "suite": "Untriaged", "tags": ["reports"], "timeout_s": 120},
+        {"id": "real_example_pass", "name": "Real command: echo passes", "command": "python -c \"import sys; sys.exit(0)\"", "suite": "Untriaged", "tags": ["demo-real"], "timeout_s": 10},
+        {"id": "real_example_fail", "name": "Real command: nonzero exit fails", "command": "python -c \"import sys; sys.exit(1)\"", "suite": "Untriaged", "tags": ["demo-real"], "timeout_s": 10}
+    ]
+}
