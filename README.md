@@ -1,17 +1,18 @@
 # Columbine — Test Triage & Run
 
-A small, standalone desktop tool for triaging test cases into suites and running
-them. Import a manifest of test cases, sort them into **Smoke / Regression /
+A small desktop tool for sorting test cases into suites and running them.
+Import a manifest of test cases, triage them into **Smoke / Regression /
 Skip**, then run a suite on a background thread and watch pass/fail land live.
-Results are written as **JUnit XML** that any CI system already understands.
+Results come out as **JUnit XML**, which any CI system already understands.
 
-No external binaries. No proprietary drivers. `python main.py` and it runs.
+No external binaries. No proprietary anything. `python main.py` and it runs.
 
-> **Origin note:** Columbine is a public rebuild of internal QA tooling I
-> developed during hardware/software validation work. The proprietary parts
-> (encoded manifest formats, device-control binaries) were removed and replaced
-> with open equivalents — plain JSON manifests and a subprocess runner — so the
-> architecture and workflow could be shared.
+> **Where it comes from:** Columbine is a public rebuild of internal QA tooling
+> I built during hardware/software validation work. The proprietary parts
+> couldn't come with me — encoded manifest formats, device-control binaries —
+> so I replaced them with open equivalents: plain JSON manifests and a
+> subprocess runner. The architecture and the workflow are the parts worth
+> showing, and those are intact.
 
 ## Run it
 
@@ -20,8 +21,8 @@ python main.py                # loads the bundled demo_tests.json
 python main.py my_tests.json  # loads your own manifest
 ```
 
-Requires Python 3.8+ and Tk (`python3-tk` on Debian/Ubuntu; bundled with the
-python.org installers on Windows/macOS).
+Python 3.8+ and Tk (`python3-tk` on Debian/Ubuntu; bundled with the python.org
+installers on Windows/macOS).
 
 ## Run the tests
 
@@ -32,8 +33,8 @@ pytest
 
 The suite covers the runner (execution outcomes, timeouts, dry run, JUnit
 output), the manifest pipeline (load, dedupe, persistence round-trips), and the
-model layer (normalization, suite transitions, observer notifications). Tests
-run automatically on every push via GitHub Actions.
+model layer (normalization, suite transitions, observer notifications). CI runs
+it on every push.
 
 ## How a test case works
 
@@ -45,23 +46,25 @@ Each case is self-describing JSON:
  "tags": ["payments"], "timeout_s": 60}
 ```
 
-- A case **with a command** runs as a subprocess. Exit 0 = pass, anything else =
-  fail, a timeout = fail, a command that won't launch = blocked.
-- A case **without a command** is simulated, so the demo runs with zero setup.
+- A case **with a command** runs as a subprocess. Exit 0 is a pass, anything
+  else is a fail, a timeout is a fail, a command that won't even launch is
+  blocked.
+- A case **without a command** is simulated — so the demo works with zero
+  setup.
 
 ## Workflow
 
 1. **Load Manifest** (or use the bundled demo).
-2. Select cases in any column and use the **→ Smoke / → Regression / → Skip**
-   buttons to triage them.
-3. **Run Smoke** or **Run Regression**. The run happens off the UI thread; rows
-   recolour green/red/amber as each case finishes.
-4. A `run_manifest.json` (what was executed) and `results.xml` (JUnit) are
-   written next to the app.
-5. **Save Working Set** persists your triage back to `manifest.json`.
+2. Select cases in any column and use **→ Smoke / → Regression / → Skip** to
+   triage them.
+3. **Run Smoke** or **Run Regression**. The run happens off the UI thread;
+   rows recolour green/red/amber as each case finishes.
+4. A `run_manifest.json` (what ran) and `results.xml` (JUnit) land next to
+   the app.
+5. **Save Working Set** writes your triage back to `manifest.json`.
 
-**Dry Run** toggles execution off — it still writes the run manifest so you can
-see exactly what *would* run.
+**Dry Run** turns execution off but still writes the run manifest — so you can
+see exactly what *would* run before you commit to running it.
 
 ## Architecture
 
@@ -76,10 +79,11 @@ ui_manager.py        interaction logic; the threaded, lock-guarded commit
 tests/               pytest suite for the non-UI layers
 ```
 
-The design is deliberately layered: the model knows nothing about Tk, the
-runner knows nothing about the UI, and styling is isolated from interaction.
-A single `notify_observers()` keeps every column consistent with one source of
-truth.
+The layering is deliberate: the model knows nothing about Tk, the runner knows
+nothing about the UI, and styling is separated from interaction. One
+`notify_observers()` keeps every column consistent with a single source of
+truth. I like tools where you can tell what talks to what by reading the file
+list — this is one of them.
 
 ---
 
