@@ -1,7 +1,7 @@
 """
 main.py
 
-Entry point for Columbine — a test-triage and run tool.
+Entry point for Citronella — a test-triage and run tool.
 
 Sort imported test cases into suites (Smoke / Regression / Skip), then run a
 suite on a background thread and watch pass/fail land live. Results are written
@@ -26,7 +26,7 @@ def main():
     )
 
     root = tk.Tk()
-    root.title("Columbine — Test Triage & Run")
+    root.title("Citronella — Test Triage & Run")
     root.geometry("1100x520")
 
     test_data = TestData()

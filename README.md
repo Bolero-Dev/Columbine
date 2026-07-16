@@ -1,4 +1,6 @@
-# Columbine — Test Triage & Run
+# Citronella — Test Triage & Run
+
+> Named after the citronella plant — it keeps the bugs away.
 
 A small desktop tool for sorting test cases into suites and running them.
 Import a manifest of test cases, triage them into **Smoke / Regression /
@@ -7,7 +9,7 @@ Results come out as **JUnit XML**, which any CI system already understands.
 
 No external binaries. No proprietary anything. `python main.py` and it runs.
 
-> **Where it comes from:** Columbine is a public rebuild of internal QA tooling
+> **Where it comes from:** Citronella is a public rebuild of internal QA tooling
 > I built during hardware/software validation work. The proprietary parts
 > couldn't come with me — encoded manifest formats, device-control binaries —
 > so I replaced them with open equivalents: plain JSON manifests and a
